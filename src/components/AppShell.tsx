@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/app/login/actions";
+import { Logo } from "@/components/Logo";
 
 type NavItem = { href: string; label: string; icon: string };
 
@@ -31,10 +32,7 @@ export function AppShell({
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 font-display text-sm font-bold text-white">
-              I
-            </div>
-            <span className="font-display text-lg font-bold text-brand-900">Isyconta</span>
+            <Logo symbolClassName="h-8 w-8" wordClassName="text-lg text-brand-900" />
             {staff && (
               <span className="badge bg-accent-500/10 text-accent-600">Despacho</span>
             )}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
 
 const servicios = [
   {
@@ -38,14 +39,7 @@ export default function Landing() {
     <main className="min-h-screen bg-gradient-to-b from-white to-brand-50/40">
       {/* Nav */}
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
-        <div className="flex items-center gap-2">
-          <div className="grid h-9 w-9 place-items-center rounded-xl bg-brand-600 font-display text-lg font-bold text-white">
-            I
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight text-brand-900">
-            Isyconta
-          </span>
-        </div>
+        <Logo symbolClassName="h-9 w-9" wordClassName="text-xl text-brand-900" withTagline />
         <nav className="flex items-center gap-3">
           <Link href="/login" className="btn-ghost">
             Iniciar sesión

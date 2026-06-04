@@ -1,6 +1,6 @@
 // Isyconta Service Worker — v1
 // PWA instalable + recepción de Web Push. Bumpear CACHE_VERSION al cambiar.
-const CACHE_VERSION = "isyconta-v1";
+const CACHE_VERSION = "isyconta-v2";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -26,8 +26,8 @@ self.addEventListener("push", (event) => {
     (async () => {
       await self.registration.showNotification(payload.title, {
         body: payload.body,
-        icon: "/icons/icon.svg",
-        badge: "/icons/icon.svg",
+        icon: "/icons/icon-192.png",
+        badge: "/icons/icon-192.png",
         data: { url: payload.url },
       });
       const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });

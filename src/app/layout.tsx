@@ -12,11 +12,11 @@ export const metadata: Metadata = {
     "Portal de clientes de Isyconta — CFDI, control fiscal y nómina digital en Mérida, Yucatán.",
   manifest: "/manifest.webmanifest",
   appleWebApp: { capable: true, statusBarStyle: "default", title: "Isyconta" },
-  icons: { icon: "/icons/icon.svg", apple: "/icons/icon.svg" },
+  // Iconos vía convención app-router: icon.svg, favicon.ico, apple-icon.png.
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1b5cf5",
+  themeColor: "#1f2a6b",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
