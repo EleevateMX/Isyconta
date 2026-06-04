@@ -1,0 +1,19 @@
+{
+  "name": "Isyconta · Contabilidad Digital",
+  "short_name": "Isyconta",
+  "description": "Portal de clientes de Isyconta: avisos, seguimiento fiscal y mensajería.",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7f9fc",
+  "theme_color": "#1b5cf5",
+  "lang": "es-MX",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
