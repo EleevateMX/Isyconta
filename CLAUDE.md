@@ -108,11 +108,15 @@ supabase/migrations/0001_init.sql    # schema + RLS + trigger perfil
 
 ## Módulos del v1
 
-1. **Login + avisos + portal** — auth propio aprobado; `/dashboard` con resumen.
-2. **Avisos** (`/avisos`) — staff publica avisos (broadcast / empresa / usuario); cliente los lee. Push pendiente de cablear.
-3. **Seguimiento fiscal** (`/fiscal`) — tabla de `obligaciones_fiscales` (IVA/ISR/DIOT/…) con estado y fecha límite + lista de `documentos`. **No factura**, solo seguimiento.
-4. **Mensajería** (`/mensajes`) — chat cliente↔contador por empresa (reemplaza WhatsApp).
+1. **Login + avisos + portal** — auth propio aprobado; `/dashboard` con resumen + toggle de notificaciones.
+2. **Avisos** (`/avisos`) — staff publica avisos; cliente los lee. **Push cableado** (broadcast en `crearAviso`).
+3. **Seguimiento fiscal** (`/fiscal`) — `obligaciones_fiscales` (IVA/ISR/DIOT/…) con estado y fecha límite + `documentos`. **Staff captura** obligaciones (`NuevaObligacion`) y cambia estados inline (`EstadoObligacionSelect`). **No factura**, solo seguimiento.
+4. **Mensajería** (`/mensajes`) — chat cliente↔contador por empresa. **Push** a la contraparte al enviar.
 5. **Web pública** (`/`) — landing rediseñada con servicios reales + CTA instalar/entrar.
+6. **Admin** (`/admin`, solo staff) — aprobar cuentas (PENDIENTE→APROBADO), asignar `empresa_id`, crear empresas, cambiar estado/empresa. Funciona con la sesión del staff vía RLS (no necesita service-role).
+
+### Web Push
+`lib/push.ts`: `sendPush(payload, ids?)`, `notifyStaff()`, `notifyEmpresa(id)`. **El ENVÍO requiere `SUPABASE_SERVICE_ROLE_KEY`** (lee suscripciones de todos saltando RLS) + llaves VAPID. La suscripción del dispositivo se guarda con `guardarSuscripcion` (server action, RLS self). UI: `components/PushToggle.tsx` en el dashboard. SW handler push en `public/sw.js` (`isyconta-v1`).
 
 ---
 
@@ -127,10 +131,11 @@ Aplicar: Supabase Studio → SQL → pegar `supabase/migrations/0001_init.sql` �
 ## Próximos pasos / TODO
 
 ### Inmediato (para que sea usable end-to-end)
-- **UI admin de aprobación**: pantalla `/admin` para que la contadora apruebe cuentas y asigne `empresa_id`. Hoy el registro funciona pero la aprobación se hace a mano en Supabase.
-- **Crear el primer usuario staff**: `update perfiles set rol='ADMIN', estado='APROBADO' where email='...';` en Supabase.
-- **Web Push real**: `lib/push.ts` (web-push), suscripción desde el cliente, cablear en `crearAviso` y `enviarMensaje`. VAPID keys en env.
+- **Crear el primer usuario staff**: `update perfiles set rol='ADMIN', estado='APROBADO' where email='...';` en Supabase. Ya con eso aparece `/admin` y puede aprobar al resto.
+- **Cargar `SUPABASE_SERVICE_ROLE_KEY` + VAPID** en env para que el push **se entregue** (el código ya está, solo faltan las llaves en prod).
+- **Apagar "Confirm email"** en Supabase Auth (el gate real es `estado='APROBADO'`).
 - **Iconos PNG** (192/512 maskable) — hoy hay un SVG; iOS prefiere PNG.
+- ✅ Hecho: UI admin de aprobación (`/admin`), Web Push cableado, captura fiscal del staff.
 
 ### Fase siguiente
 - **Seguimiento fiscal enriquecido**: captura de obligaciones por el staff, recordatorios automáticos (pg_cron) antes de fechas límite SAT.

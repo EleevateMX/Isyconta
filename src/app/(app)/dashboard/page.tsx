@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requirePerfil, esStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { PushToggle } from "@/components/PushToggle";
 
 export const dynamic = "force-dynamic";
 
@@ -103,6 +104,14 @@ export default async function DashboardPage() {
         <Link href="/mensajes" className="btn-primary mt-3">
           Abrir conversación
         </Link>
+      </section>
+
+      <section className="card">
+        <h2 className="font-display font-semibold text-brand-900">Notificaciones</h2>
+        <p className="mb-3 mt-1 text-sm text-slate-600">
+          Recibe tus avisos y mensajes directo en este dispositivo.
+        </p>
+        <PushToggle />
       </section>
     </div>
   );

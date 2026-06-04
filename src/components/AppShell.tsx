@@ -4,12 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/app/login/actions";
 
-const NAV = [
+type NavItem = { href: string; label: string; icon: string };
+
+const NAV_BASE: NavItem[] = [
   { href: "/dashboard", label: "Inicio", icon: "🏠" },
   { href: "/avisos", label: "Avisos", icon: "🔔" },
   { href: "/fiscal", label: "Fiscal", icon: "📊" },
   { href: "/mensajes", label: "Mensajes", icon: "💬" },
-] as const;
+];
+const NAV_ADMIN: NavItem = { href: "/admin", label: "Admin", icon: "⚙️" };
 
 export function AppShell({
   children,
@@ -21,6 +24,7 @@ export function AppShell({
   staff: boolean;
 }) {
   const pathname = usePathname();
+  const NAV = staff ? [...NAV_BASE, NAV_ADMIN] : NAV_BASE;
   return (
     <div className="min-h-screen bg-slate-50 pb-20 md:pb-0">
       {/* Top bar */}
@@ -66,7 +70,10 @@ export function AppShell({
 
       {/* Bottom nav móvil */}
       <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white md:hidden">
-        <div className="mx-auto grid max-w-md grid-cols-4">
+        <div
+          className="mx-auto grid max-w-md"
+          style={{ gridTemplateColumns: `repeat(${NAV.length}, minmax(0, 1fr))` }}
+        >
           {NAV.map((n) => {
             const active = pathname.startsWith(n.href);
             return (

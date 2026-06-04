@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { sendPush } from "@/lib/push";
 
 export type AvisoState = { ok?: boolean; error?: string };
 
@@ -25,7 +26,9 @@ export async function crearAviso(_prev: AvisoState, formData: FormData): Promise
   });
   if (error) return { error: error.message };
 
-  // TODO (futuro): disparar Web Push a los suscriptores con lib/push.ts
+  // Push broadcast (fire-and-forget; no bloquea la respuesta).
+  void sendPush({ title: `Aviso: ${titulo}`, body: cuerpo, url: "/avisos" }).catch(() => {});
+
   revalidatePath("/avisos");
   return { ok: true };
 }

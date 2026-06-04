@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requirePerfil } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { notifyEmpresa, notifyStaff } from "@/lib/push";
 
 export type EnviarState = { ok?: boolean; error?: string; conversacionId?: string };
 
@@ -45,7 +46,28 @@ export async function enviarMensaje(_prev: EnviarState, formData: FormData): Pro
     .update({ updated_at: new Date().toISOString() })
     .eq("id", conversacionId);
 
-  // TODO (futuro): Web Push al contador / al cliente según quién escribió.
+  // Push a la contraparte: si escribe el staff → avisa a la empresa; si el cliente → al staff.
+  const preview = cuerpo.length > 80 ? cuerpo.slice(0, 77) + "…" : cuerpo;
+  if (perfil.rol === "CLIENTE") {
+    void notifyStaff({ title: "Nuevo mensaje de un cliente", body: preview, url: "/mensajes" }).catch(
+      () => {},
+    );
+  } else {
+    const { data: conv } = await supabase
+      .from("conversaciones")
+      .select("empresa_id")
+      .eq("id", conversacionId)
+      .single();
+    const empresaId = (conv?.empresa_id as string | undefined) ?? perfil.empresa_id;
+    if (empresaId) {
+      void notifyEmpresa(empresaId, {
+        title: "Mensaje de tu contador",
+        body: preview,
+        url: "/mensajes",
+      }).catch(() => {});
+    }
+  }
+
   revalidatePath("/mensajes");
   return { ok: true, conversacionId };
 }
