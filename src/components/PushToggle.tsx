@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { guardarSuscripcion } from "@/app/actions/push";
+import { IconBell } from "@/components/icons";
 
 const VAPID = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? "";
 
@@ -66,7 +67,9 @@ export function PushToggle() {
 
   if (estado === "activo") {
     return (
-      <p className="text-sm text-emerald-600">🔔 Notificaciones activadas en este dispositivo.</p>
+      <p className="flex items-center gap-1.5 text-sm text-emerald-600">
+        <IconBell className="h-4 w-4" /> Notificaciones activadas en este dispositivo.
+      </p>
     );
   }
   if (estado === "denegado") {
@@ -79,8 +82,8 @@ export function PushToggle() {
   }
   return (
     <div>
-      <button className="btn-ghost" onClick={activar}>
-        🔔 Activar notificaciones
+      <button className="btn-ghost inline-flex items-center gap-1.5" onClick={activar}>
+        <IconBell className="h-4 w-4" /> Activar notificaciones
       </button>
       {msg && <p className="mt-2 text-sm text-slate-500">{msg}</p>}
     </div>

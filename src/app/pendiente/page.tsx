@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { logoutAction } from "@/app/login/actions";
+import { IconClock } from "@/components/icons";
 
 export default async function PendientePage({
   searchParams,
@@ -10,8 +11,8 @@ export default async function PendientePage({
   return (
     <main className="grid min-h-screen place-items-center bg-gradient-to-b from-brand-50 to-white px-5 text-center">
       <div className="card max-w-md">
-        <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-accent-500/10 text-2xl">
-          ⏳
+        <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-accent-500/10 text-accent-600">
+          <IconClock className="h-7 w-7" />
         </div>
         <h1 className="mt-4 font-display text-xl font-semibold text-brand-900">
           {nuevo ? "¡Solicitud enviada!" : "Cuenta pendiente de autorización"}
