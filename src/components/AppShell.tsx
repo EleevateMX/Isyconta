@@ -3,16 +3,29 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/app/login/actions";
+import { Logo } from "@/components/Logo";
+import {
+  IconHome,
+  IconBell,
+  IconChart,
+  IconChat,
+  IconSettings,
+} from "@/components/icons";
+import type { SVGProps } from "react";
 
-type NavItem = { href: string; label: string; icon: string };
+type NavItem = {
+  href: string;
+  label: string;
+  Icon: (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
+};
 
 const NAV_BASE: NavItem[] = [
-  { href: "/dashboard", label: "Inicio", icon: "🏠" },
-  { href: "/avisos", label: "Avisos", icon: "🔔" },
-  { href: "/fiscal", label: "Fiscal", icon: "📊" },
-  { href: "/mensajes", label: "Mensajes", icon: "💬" },
+  { href: "/dashboard", label: "Inicio", Icon: IconHome },
+  { href: "/avisos", label: "Avisos", Icon: IconBell },
+  { href: "/fiscal", label: "Fiscal", Icon: IconChart },
+  { href: "/mensajes", label: "Mensajes", Icon: IconChat },
 ];
-const NAV_ADMIN: NavItem = { href: "/admin", label: "Admin", icon: "⚙️" };
+const NAV_ADMIN: NavItem = { href: "/admin", label: "Admin", Icon: IconSettings };
 
 export function AppShell({
   children,
@@ -31,10 +44,7 @@ export function AppShell({
       <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 font-display text-sm font-bold text-white">
-              I
-            </div>
-            <span className="font-display text-lg font-bold text-brand-900">Isyconta</span>
+            <Logo symbolClassName="h-8 w-8" wordClassName="text-lg text-brand-900" />
             {staff && (
               <span className="badge bg-accent-500/10 text-accent-600">Despacho</span>
             )}
@@ -54,12 +64,13 @@ export function AppShell({
             <Link
               key={n.href}
               href={n.href}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
+              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition ${
                 pathname.startsWith(n.href)
                   ? "bg-brand-50 text-brand-700"
                   : "text-slate-500 hover:bg-slate-100"
               }`}
             >
+              <n.Icon className="h-4 w-4" />
               {n.label}
             </Link>
           ))}
@@ -84,7 +95,7 @@ export function AppShell({
                   active ? "text-brand-700" : "text-slate-400"
                 }`}
               >
-                <span className="text-lg">{n.icon}</span>
+                <n.Icon className="h-5 w-5" />
                 {n.label}
               </Link>
             );

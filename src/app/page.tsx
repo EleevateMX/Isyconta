@@ -1,35 +1,45 @@
 import Link from "next/link";
+import { Logo } from "@/components/Logo";
+import {
+  IconFile,
+  IconUsers,
+  IconChart,
+  IconShield,
+  IconScale,
+  IconTrending,
+  IconCheck,
+} from "@/components/icons";
 
 const servicios = [
   {
     titulo: "Facturación CFDI 4.0",
     desc: "Timbrado de facturas, complementos y Carta Porte. Tus comprobantes siempre disponibles y respaldados.",
-    icon: "📄",
+    Icon: IconFile,
   },
   {
     titulo: "Nómina electrónica",
     desc: "Cálculo y timbrado de recibos, control laboral y cumplimiento ante el IMSS.",
-    icon: "👥",
+    Icon: IconUsers,
   },
   {
     titulo: "Contabilidad automatizada",
     desc: "Pólizas generadas desde tus CFDI y descarga automática de tus XML del SAT.",
-    icon: "📊",
+    Icon: IconChart,
   },
   {
     titulo: "Control fiscal",
     desc: "Seguimiento de impuestos, declaraciones y fechas límite. Sin sorpresas con el SAT.",
-    icon: "🛡️",
+    Icon: IconShield,
   },
   {
     titulo: "Asesoría legal y laboral",
     desc: "Acompañamiento en temas legales, laborales y de auditoría para tu empresa.",
-    icon: "⚖️",
+    Icon: IconScale,
   },
   {
     titulo: "Reportes a tu medida",
     desc: "Información financiera clara y exportable cuando la necesites, desde cualquier dispositivo.",
-    icon: "📈",
+    Icon: IconTrending,
   },
 ];
 
@@ -38,14 +48,7 @@ export default function Landing() {
     <main className="min-h-screen bg-gradient-to-b from-white to-brand-50/40">
       {/* Nav */}
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
-        <div className="flex items-center gap-2">
-          <div className="grid h-9 w-9 place-items-center rounded-xl bg-brand-600 font-display text-lg font-bold text-white">
-            I
-          </div>
-          <span className="font-display text-xl font-bold tracking-tight text-brand-900">
-            Isyconta
-          </span>
-        </div>
+        <Logo symbolClassName="h-9 w-9" wordClassName="text-xl text-brand-900" withTagline />
         <nav className="flex items-center gap-3">
           <Link href="/login" className="btn-ghost">
             Iniciar sesión
@@ -87,7 +90,9 @@ export default function Landing() {
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {servicios.map((s) => (
             <div key={s.titulo} className="card transition hover:shadow-md">
-              <div className="text-3xl">{s.icon}</div>
+              <div className="grid h-12 w-12 place-items-center rounded-xl bg-brand-50 text-brand-600">
+                <s.Icon className="h-6 w-6" />
+              </div>
               <h3 className="mt-3 font-display text-lg font-semibold text-brand-900">{s.titulo}</h3>
               <p className="mt-1.5 text-sm text-slate-600">{s.desc}</p>
             </div>
@@ -102,11 +107,18 @@ export default function Landing() {
             <div>
               <h2 className="font-display text-3xl font-bold">La app de Isyconta</h2>
               <ul className="mt-5 space-y-3 text-brand-100">
-                <li>✓ Recibe <strong>avisos y recordatorios</strong> directo en tu teléfono.</li>
-                <li>✓ Consulta el <strong>estado de tus declaraciones</strong> y fechas límite.</li>
-                <li>✓ Descarga tus <strong>CFDI, constancias y reportes</strong> cuando quieras.</li>
-                <li>✓ <strong>Chatea con tu contador</strong> dentro de la app, sin WhatsApp.</li>
-                <li>✓ Acceso seguro <strong>autorizado por tu contadora</strong>.</li>
+                {[
+                  <>Recibe <strong>avisos y recordatorios</strong> directo en tu teléfono.</>,
+                  <>Consulta el <strong>estado de tus declaraciones</strong> y fechas límite.</>,
+                  <>Descarga tus <strong>CFDI, constancias y reportes</strong> cuando quieras.</>,
+                  <><strong>Chatea con tu contador</strong> dentro de la app, sin WhatsApp.</>,
+                  <>Acceso seguro <strong>autorizado por tu contadora</strong>.</>,
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-2.5">
+                    <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent-400" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
               <Link href="/login" className="btn mt-7 bg-accent-500 text-white hover:bg-accent-600">
                 Comenzar

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AuthForm } from "@/components/AuthForm";
+import { Logo } from "@/components/Logo";
 
 export default async function LoginPage({
   searchParams,
@@ -10,11 +11,8 @@ export default async function LoginPage({
   return (
     <main className="grid min-h-screen place-items-center bg-gradient-to-b from-brand-50 to-white px-5">
       <div className="w-full max-w-sm">
-        <Link href="/" className="mb-6 flex items-center justify-center gap-2">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand-600 font-display text-lg font-bold text-white">
-            I
-          </div>
-          <span className="font-display text-2xl font-bold text-brand-900">Isyconta</span>
+        <Link href="/" className="mb-6 flex justify-center">
+          <Logo symbolClassName="h-10 w-10" wordClassName="text-2xl text-brand-900" />
         </Link>
         <div className="card">
           <h1 className="font-display text-xl font-semibold text-brand-900">Iniciar sesión</h1>
