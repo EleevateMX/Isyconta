@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requirePerfil, esStaff } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { PushToggle } from "@/components/PushToggle";
+import { IconChart, IconBell, IconChat } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +43,10 @@ export default async function DashboardPage() {
         {/* Próximas obligaciones */}
         <section className="card">
           <div className="flex items-center justify-between">
-            <h2 className="font-display font-semibold text-brand-900">Próximas obligaciones</h2>
+            <h2 className="flex items-center gap-2 font-display font-semibold text-brand-900">
+              <IconChart className="h-4 w-4 text-brand-600" />
+              Próximas obligaciones
+            </h2>
             <Link href="/fiscal" className="text-sm font-medium text-brand-700">
               Ver todo →
             </Link>
@@ -74,7 +78,10 @@ export default async function DashboardPage() {
         {/* Avisos recientes */}
         <section className="card">
           <div className="flex items-center justify-between">
-            <h2 className="font-display font-semibold text-brand-900">Avisos recientes</h2>
+            <h2 className="flex items-center gap-2 font-display font-semibold text-brand-900">
+              <IconBell className="h-4 w-4 text-brand-600" />
+              Avisos recientes
+            </h2>
             <Link href="/avisos" className="text-sm font-medium text-brand-700">
               Ver todo →
             </Link>
@@ -97,7 +104,10 @@ export default async function DashboardPage() {
       </div>
 
       <section className="card">
-        <h2 className="font-display font-semibold text-brand-900">¿Necesitas algo?</h2>
+        <h2 className="flex items-center gap-2 font-display font-semibold text-brand-900">
+          <IconChat className="h-4 w-4 text-brand-600" />
+          ¿Necesitas algo?
+        </h2>
         <p className="mt-1 text-sm text-slate-600">
           Escríbele directo a tu contador desde la app, sin WhatsApp.
         </p>
